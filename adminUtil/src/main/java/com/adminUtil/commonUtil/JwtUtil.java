@@ -1,12 +1,9 @@
-package com.account.util;
+package com.adminUtil.commonUtil;
 
-import com.account.entity.Account;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import lombok.extern.log4j.Log4j2;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
@@ -17,21 +14,19 @@ import java.util.Date;
   * @param
   * @return
   */
-@Log4j2
 public class JwtUtil {
 
+    /**
+     * 3天
+     */
     private static final long EXPIRE_TIME =3 * 24 * 60 * 60 * 1000;
 
-    private static final String web = "web";
-
-    private static final String mobile = "mobile";
-
-    public static String sign(Account account) throws UnsupportedEncodingException {
-        Algorithm algorithm = Algorithm.HMAC256(account.getPassword());
+    public static String sign(String password,String username, String id) throws UnsupportedEncodingException {
+        Algorithm algorithm = Algorithm.HMAC256(password);
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         return JWT.create()
-                .withClaim("username", account.getUsername())
-                .withClaim("uuid",account.getId())
+                .withClaim("username", username)
+                .withClaim("uuid",id)
                 .withExpiresAt(date)
                 .sign(algorithm);
     }

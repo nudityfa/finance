@@ -31,6 +31,20 @@ public class LoginController {
     @ApiOperation(value = "登录")
     @PostMapping("login")
     public ResponseBean login(@RequestBody LoginDTO dto){
-        return ResponseBean.data(loginService.selectAccountByUsername(dto));
+        return ResponseBean.success(loginService.selectAccountByUsername(dto));
+    }
+
+
+    @ApiOperation(value = "登出")
+    @PostMapping("logout")
+    public ResponseBean logout(){
+        loginService.logout();
+        return ResponseBean.success();
+    }
+
+    @ApiOperation(value = "测试")
+    @PostMapping("test")
+    public ResponseBean test(){
+        return ResponseBean.success(loginService.test());
     }
 }

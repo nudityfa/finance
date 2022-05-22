@@ -1,0 +1,20 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 1
+    timeout: 2000
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: account_route
+          uri: lb://finance-account
+          predicates:
+            - Method=POST
+            - Path=/finance-account/**
+          filters:
+            - StripPrefix=1
+            - Authorize=true

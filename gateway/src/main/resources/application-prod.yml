@@ -1,0 +1,30 @@
+spring:
+  redis:
+    host: 192.168.10.102
+    port: 6379
+    database: 1
+    timeout: 2000
+    password: '!redis@ljh'
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: account_route
+          uri: lb://finance-account
+          predicates:
+            - Method=POST
+            - Path=/finance-account/**
+          filters:
+            - StripPrefix=1
+            - Authorize=true
+
+spring-cluster:
+  password: '!redis@ljh'
+  database: 1
+  timeout: 2000
+  masterAddress: redis://192.168.10.102:6379
+  slaveAddress:
+    - redis://192.168.10.104:6379
+    - redis://192.168.10.103:6379

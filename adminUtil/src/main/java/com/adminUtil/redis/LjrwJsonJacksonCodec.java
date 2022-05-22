@@ -1,11 +1,6 @@
-package com.account.redis;
+package com.adminUtil.redis;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufOutputStream;
@@ -24,13 +19,22 @@ import java.io.OutputStream;
  */
 public class LjrwJsonJacksonCodec extends JsonJacksonCodec {
 
+    @Override
+    public Encoder getValueEncoder() {
+        return encoder;
+    }
+
     private final Encoder encoder = new Encoder() {
         @Override
         public ByteBuf encode(Object in) throws IOException {
             ByteBuf out = ByteBufAllocator.DEFAULT.buffer();
             try {
                 ByteBufOutputStream os = new ByteBufOutputStream(out);
-                mapObjectMapper.writeValue((OutputStream) os, JSON.toJSONString(in));
+                Object write = in;
+                if (!isJavaClass(in.getClass())){
+                    write = JSON.toJSONString(in);
+                }
+                mapObjectMapper.writeValue((OutputStream) os,write);
                 return os.buffer();
             } catch (IOException e) {
                 out.release();
@@ -41,4 +45,13 @@ public class LjrwJsonJacksonCodec extends JsonJacksonCodec {
             }
         }
     };
+
+    /**
+     * 判断是否为自定义类
+     * @param clz
+     * @return
+     */
+    public static boolean isJavaClass(Class<?> clz) {
+        return clz != null && clz.getClassLoader() == null;
+    }
 }

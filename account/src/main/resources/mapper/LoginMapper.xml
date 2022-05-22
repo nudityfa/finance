@@ -13,4 +13,14 @@
         del_flag = 0
         and username = #{username}
     </select>
+
+    <update id="incLoginFrequency">
+        update
+        account
+        set
+        frequency = frequency + 1,
+        last_login_time = #{nowTime}
+        where
+        id = #{id}
+    </update>
 </mapper>

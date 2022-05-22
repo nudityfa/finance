@@ -18,91 +18,60 @@ public class ResponseBean {
 
     private Object data;
 
-    public ResponseBean() {
-        code = Code.success.getCode();
+    private ResponseBean() {
+
     }
 
-    public ResponseBean(Code code, String msg, Object data) {
-        this.code = code.getCode();
-        this.msg = msg;
-        this.data = data;
-    }
-
-    public static ResponseBean code(Code code){
+    public static ResponseBean success(){
         ResponseBean bean = new ResponseBean();
-        if (code != null){
-            bean.setCode(code.getCode());
-        }
+        bean.setCode(Code.success.getCode());
         return bean;
     }
 
-    public static ResponseBean data(Object data){
-        ResponseBean bean = new ResponseBean();
-        if (data != null){
-            bean.setData(data);
-        }
+    public static ResponseBean success(Object object){
+        ResponseBean bean = success();
+        bean.setData(object);
         return bean;
     }
 
-    public static ResponseBean dataWithCode(Code code,Object data){
-        if (code == null){
-            return data(data);
-        }
-        if (data == null){
-            return code(code);
-        }
-        ResponseBean bean = new ResponseBean();
-        bean.setCode(code.getCode());
-        bean.setData(data);
-        return bean;
-    }
-
-    public static ResponseBean dataWithMsg(String msg,Object data){
-        if (StrUtil.isNotBlank(msg)){
-            return data(data);
-        }
-        if (data == null){
-            return msg(msg);
-        }
-        ResponseBean bean = new ResponseBean();
-        bean.setMsg(msg);
-        bean.setData(data);
-        return bean;
-    }
-
-    public static ResponseBean msg(String msg){
-        ResponseBean bean = new ResponseBean();
-        if (StrUtil.isNotBlank(msg)){
-            bean.setMsg(msg);
-        }
-        return bean;
-    }
-
-    public static ResponseBean msgWithCode(Code code,String msg){
-        if (StrUtil.isBlank(msg)){
-            return code(code);
-        }
-        if (code == null){
-            return msg(msg);
-        }
-        ResponseBean bean = new ResponseBean();
-        bean.setCode(code.getCode());
+    public static ResponseBean successWithMsg(String msg){
+        ResponseBean bean = success();
         bean.setMsg(msg);
         return bean;
     }
 
+    public static ResponseBean fail(){
+        ResponseBean bean = new ResponseBean();
+        bean.setCode(Code.serverError.getCode());
+        return bean;
+    }
 
-    public static ResponseBean all(Code code,String msg,Object data){
-        if (code == null){
-            return dataWithMsg(msg,data);
-        }
-        if (StrUtil.isBlank(msg)){
-            return dataWithCode(code,data);
-        }
-        if (data == null){
-            return msgWithCode(code,msg);
-        }
-        return new ResponseBean(code,msg,data);
+    public static ResponseBean fail(Object object){
+        ResponseBean bean = fail();
+        bean.setData(object);
+        return bean;
+    }
+
+    public static ResponseBean failWithMsg(String msg){
+        ResponseBean bean = fail();
+        bean.setMsg(msg);
+        return bean;
+    }
+
+    public static ResponseBean fail(Code code,String msg){
+        ResponseBean bean = fail();
+        bean.setCode(code.getCode());
+        bean.setMsg(msg);
+        bean.setData("");
+        return bean;
+    }
+
+    public static ResponseBean custom(String code,String msg,Object object){
+        ResponseBean bean = new ResponseBean();
+        bean.setCode(code);
+        bean.setMsg(msg);
+        bean.setData(object);
+        return bean;
     }
 
     /**

@@ -1,22 +1,14 @@
-package com.account.redis;
+package com.gateway.redis;
 
 import com.adminUtil.redis.LjrwJsonJacksonCodec;
-import com.alibaba.fastjson.JSON;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
-import org.redisson.client.RedisClient;
-import org.redisson.client.RedisClientConfig;
 import org.redisson.client.codec.Codec;
-import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.Config;
 import org.redisson.config.MasterSlaveServersConfig;
-import org.redisson.config.SentinelServersConfig;
-import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 /**
  * Copyright: Copyright (C) 2022 XXX, Inc. All rights reserved. <p>
