@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nudity.dao.JiJinMapper">
+    
+    <insert id="insertHistoryData">
+        insert into
+        ji_jin_of_dan_juan(code,nav,percentage,`value`,`date`)
+        value
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{code},#{item.nav},#{item.percentage},#{item.value},#{item.date}
+            )
+        </foreach>
+    </insert>
+</mapper>

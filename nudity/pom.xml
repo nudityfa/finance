@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>finance</artifactId>
+        <groupId>com.nudity</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nudity</artifactId>
+
+    <name>nudity</name>
+    <!-- FIXME change it to the project's website -->
+    <url>http://www.example.com</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.adminUtil</groupId>
+            <artifactId>adminUtil</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!--jdbc-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!--druid 数据库连接池-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.10</version>
+        </dependency>
+        <!--mybatis-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <!--fstCodec-->
+        <dependency>
+            <groupId>de.ruedigermoeller</groupId>
+            <artifactId>fst</artifactId>
+            <version>2.57</version>
+        </dependency>
+
+        <!--swagger-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>1.9.6</version>
+        </dependency>
+
+        <!--        &lt;!&ndash;test&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>redis.clients</groupId>-->
+        <!--            <artifactId>jedis</artifactId>-->
+        <!--            <version>2.7.1</version>&lt;!&ndash;版本号可根据实际情况填写 &ndash;&gt;-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.commons</groupId>-->
+        <!--            <artifactId>commons-lang3</artifactId>-->
+        <!--            <version>3.3.2</version>-->
+        <!--        </dependency>-->
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--项目的启动类-->
+                    <mainClass>com.account.AccountApplication</mainClass>
+                    <!--解决windows命令行窗口中文乱码-->
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                    <layout>ZIP</layout>
+                    <!--配置需要打包进项目的jar-->
+                    <includes>
+                        <!--这里是填写需要包含进去的jar，
+                                            必须项目中的某些模块，会经常变动，那么就应该将其坐标写进来
+                                            如果没有则non-exists ，表示不打包依赖
+                                          -->
+                        <include>
+                            <groupId>non-exists</groupId>
+                            <artifactId>non-exists</artifactId>
+                        </include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 这个插件是用来复制项目的静态资源-->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- 自定义 -->
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <!-- 复制静态资源 -->
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <!-- 指定静态资源的路径 -->
+                                    <directory>src/main/resources</directory>
+                                    <!-- 指定需要复制的文件 -->
+                                    <includes>
+                                        <include>*.*</include>
+                                        <include>static/**</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <!-- 指定复制到该目录下 -->
+                            <outputDirectory>${project.build.directory}/config</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

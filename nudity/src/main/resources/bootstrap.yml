@@ -1,0 +1,9 @@
+server:
+  port: 9079
+spring:
+  application:
+    name: finance-nudity
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.171.1:8848

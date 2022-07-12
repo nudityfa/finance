@@ -1,6 +1,7 @@
 package com.adminUtil.redis;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufOutputStream;
@@ -31,9 +32,9 @@ public class LjrwJsonJacksonCodec extends JsonJacksonCodec {
             try {
                 ByteBufOutputStream os = new ByteBufOutputStream(out);
                 Object write = in;
-                if (!isJavaClass(in.getClass())){
-                    write = JSON.toJSONString(in);
-                }
+//                if (!isJavaClass(in.getClass())){
+//                   write = JSON.toJSONString(in);
+//                }
                 mapObjectMapper.writeValue((OutputStream) os,write);
                 return os.buffer();
             } catch (IOException e) {

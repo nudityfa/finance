@@ -16,6 +16,11 @@ import java.util.Date;
   */
 public class JwtUtil {
 
+
+    public static final String AUTHORIZE_TOKEN = "token";
+
+    public static final String DEFAULT_ACCOUNT = "admin";
+
     /**
      * 3天
      */
